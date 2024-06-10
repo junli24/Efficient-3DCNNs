@@ -91,19 +91,19 @@ def make_dataset(root_path, annotation_path, subset, n_samples_for_each_video,
     class_to_idx = get_class_labels(data)
     idx_to_class = {}
     for name, label in class_to_idx.items():
-        idx_to_class[label] = name
+        idx_to_class[label] = name # 整数->类别
 
     dataset = []
     for i in range(len(video_names)):
         if i % 1000 == 0:
             print('dataset loading [{}/{}]'.format(i, len(video_names)))
 
-        video_path = os.path.join(root_path, video_names[i])
+        video_path = os.path.join(root_path, video_names[i]) # 视频路径
         if not os.path.exists(video_path):
             print(video_path)
             continue
 
-        n_frames_file_path = os.path.join(video_path, 'n_frames')
+        n_frames_file_path = os.path.join(video_path, 'n_frames') # 帧文件路径
         n_frames = int(load_value_file(n_frames_file_path))
         if n_frames <= 0:
             continue
