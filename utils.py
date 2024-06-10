@@ -46,6 +46,7 @@ class Logger(object):
         self.log_file.flush()
 
 
+# 读取文件内容,去掉内容右边的回车符
 def load_value_file(file_path):
     with open(file_path, 'r') as input_file:
         value = float(input_file.read().rstrip('\n\r'))
