@@ -122,13 +122,13 @@ def make_dataset(root_path, annotation_path, subset, n_samples_for_each_video,
         else:
             sample['label'] = -1
 
-        if n_samples_for_each_video == 1:
+        if n_samples_for_each_video == 1: # 视频的采样次数
             sample['frame_indices'] = list(range(1, n_frames + 1))
             dataset.append(sample)
         else:
             if n_samples_for_each_video > 1:
                 step = max(1,
-                           math.ceil((n_frames - 1 - sample_duration) /
+                           math.ceil((n_frames - 1 - sample_duration) / # sample_duration每次采样的帧数
                                      (n_samples_for_each_video - 1)))
             else:
                 step = sample_duration
