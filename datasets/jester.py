@@ -22,7 +22,7 @@ def pil_loader(path):
 
 def accimage_loader(path):
     try:
-        import accimage
+        import accimage # Pytorch中的PIL,加快处理速度
         return accimage.Image(path)
     except IOError:
         # Potentially a decoding problem, fall back to PIL.Image
@@ -59,6 +59,7 @@ def load_annotation_data(data_file_path):
         return json.load(data_file)
 
 
+# 将类别转换成整数
 def get_class_labels(data):
     class_labels_map = {}
     index = 0
@@ -73,12 +74,12 @@ def get_video_names_and_annotations(data, subset):
     annotations = []
 
     for key, value in data['database'].items():
-        this_subset = value['subset']
+        this_subset = value['subset'] # 是训练集还是验证集
         if this_subset == subset:
-            label = value['annotations']['label']
+            label = value['annotations']['label'] # 获取类别
             #video_names.append('{}/{}'.format(label, key))
-            video_names.append(key)
-            annotations.append(value['annotations'])
+            video_names.append(key) # 视频编号
+            annotations.append(value['annotations']) # 视频的标注,包含视频的类别
 
     return video_names, annotations
 
