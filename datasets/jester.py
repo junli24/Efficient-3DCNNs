@@ -104,7 +104,7 @@ def make_dataset(root_path, annotation_path, subset, n_samples_for_each_video,
             continue
 
         n_frames_file_path = os.path.join(video_path, 'n_frames') # 帧文件路径
-        n_frames = int(load_value_file(n_frames_file_path))
+        n_frames = int(load_value_file(n_frames_file_path)) # 读取文件内容并转换成整数
         if n_frames <= 0:
             continue
 
@@ -118,7 +118,7 @@ def make_dataset(root_path, annotation_path, subset, n_samples_for_each_video,
             'video_id': video_names[i]
         }
         if len(annotations) != 0:
-            sample['label'] = class_to_idx[annotations[i]['label']]
+            sample['label'] = class_to_idx[annotations[i]['label']] # 视频的类别(整数)
         else:
             sample['label'] = -1
 
