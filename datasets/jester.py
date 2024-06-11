@@ -189,12 +189,12 @@ class Jester(data.Dataset):
         frame_indices = self.data[index]['frame_indices']
         if self.temporal_transform is not None:
            frame_indices = self.temporal_transform(frame_indices)
-        clip = self.loader(path, frame_indices, self.sample_duration)
+        clip = self.loader(path, frame_indices, self.sample_duration) # 读取视频的帧,形成一个列表
         if self.spatial_transform is not None:
             self.spatial_transform.randomize_parameters()
             clip = [self.spatial_transform(img) for img in clip]
-        im_dim = clip[0].size()[-2:]
-        clip = torch.stack(clip, 0).permute(1, 0, 2, 3)
+        im_dim = clip[0].size()[-2:] # 返回帧的高度,宽度
+        clip = torch.stack(clip, 0).permute(1, 0, 2, 3) # 将帧拼接在一起,第一维为深度.将深度和通道数进行交换.通道,深度,高度,宽度
 
         target = self.data[index]
         if self.target_transform is not None:
