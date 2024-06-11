@@ -18,7 +18,7 @@ def pil_loader(path):
     # open path as file to avoid ResourceWarning (https://github.com/python-pillow/Pillow/issues/835)
     with open(path, 'rb') as f:
         with Image.open(f) as img:
-            return img.convert('RGB')
+            return img.convert('RGB') # 转换成RGB格式
 
 
 def accimage_loader(path):
@@ -38,16 +38,16 @@ def get_default_image_loader():
         return pil_loader
 
 
-def video_loader(video_dir_path, frame_indices, sample_duration, image_loader):
+def video_loader(video_dir_path, frame_indices, sample_duration, image_loader): # frame_indices:帧的索引/下标,sample_duration:每一次采样的帧数
     # print(frame_indices)
     cap = cv2.VideoCapture(video_dir_path)
     video = []
-    cap.set(1, frame_indices[0])
+    cap.set(1, frame_indices[0]) # 设置读取帧的索引
     for _ in frame_indices:
         ret, frame = cap.read()
         if ret:
-            pil_frame = Image.fromarray(frame)
-            video.append(pil_frame)
+            pil_frame = Image.fromarray(frame) # 读取一帧
+            video.append(pil_frame) # 形成帧的列表
         else:
             break
 
@@ -55,6 +55,7 @@ def video_loader(video_dir_path, frame_indices, sample_duration, image_loader):
     
 
     # Loop as many times for short videos
+    # 对于短视频,把帧数补齐到sample_duration
     for frame in video:
         if len(video) >= sample_duration:
             break
