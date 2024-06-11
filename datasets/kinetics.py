@@ -103,7 +103,7 @@ def get_video_names_annotations_framenum(data, subset):
                 video_names.append('{}/{}'.format(label, key))
                 annotations.append(value['annotations'])
 
-    return video_names, annotations, framenum
+    return video_names, annotations, framenum # 返回视频的名字,标注,帧数
 
 
 def make_dataset(root_path, annotation_path, subset, n_samples_for_each_video,
@@ -138,7 +138,7 @@ def make_dataset(root_path, annotation_path, subset, n_samples_for_each_video,
             'video_id': video_names[i][:-14].split('/')[1]
         }
         if len(annotations) != 0:
-            sample['label'] = class_to_idx[annotations[i]['label']]
+            sample['label'] = class_to_idx[annotations[i]['label']] # 类别整数
         else:
             sample['label'] = -1
 
