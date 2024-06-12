@@ -22,7 +22,7 @@ class Fire(nn.Module):
         super(Fire, self).__init__()
         self.use_bypass = use_bypass
         self.inplanes = inplanes
-        self.relu = nn.ReLU(inplace=True)
+        self.relu = nn.ReLU(inplace=True) # 改变对象值
         self.squeeze = nn.Conv3d(inplanes, squeeze_planes, kernel_size=1)
         self.squeeze_bn = nn.BatchNorm3d(squeeze_planes)
         self.expand1x1 = nn.Conv3d(squeeze_planes, expand1x1_planes,
