@@ -110,7 +110,7 @@ class SqueezeNet(nn.Module):
             nn.AvgPool3d((last_duration, last_size, last_size), stride=1)
         )
 
-        for m in self.modules():
+        for m in self.modules(): # 模型参数初始化
             if isinstance(m, nn.Conv3d):
                 m.weight = nn.init.kaiming_normal_(m.weight, mode='fan_out')
             elif isinstance(m, nn.BatchNorm3d):
