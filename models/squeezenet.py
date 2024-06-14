@@ -107,7 +107,7 @@ class SqueezeNet(nn.Module):
             nn.Dropout(p=0.5),
             final_conv,
             nn.ReLU(inplace=True),
-            nn.AvgPool3d((last_duration, last_size, last_size), stride=1)
+            nn.AvgPool3d((last_duration, last_size, last_size), stride=1) # 在最后深度,高度,宽度上做avgpool
         )
 
         for m in self.modules(): # 模型参数初始化
