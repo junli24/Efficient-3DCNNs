@@ -43,7 +43,7 @@ class Fire(nn.Module):
         out2 = self.expand3x3(out)
         out2 = self.expand3x3_bn(out2)
 
-        out = torch.cat([out1, out2], 1)
+        out = torch.cat([out1, out2], 1) # 按channel拼接
         if self.use_bypass:
         	out += x
         out = self.relu(out)
