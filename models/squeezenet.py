@@ -133,13 +133,13 @@ def get_fine_tuning_parameters(model, ft_portion):
         ft_module_names.append('classifier')
 
         parameters = []
-        for k, v in model.named_parameters():
-            for ft_module in ft_module_names:
-                if ft_module in k:
-                    parameters.append({'params': v})
+        for k, v in model.named_parameters(): # 迭代每一层参数
+            for ft_module in ft_module_names: # 迭代'classifier'
+                if ft_module in k: # 如果是'classifier'
+                    parameters.append({'params': v}) # 添加参数'classifier'层参数
                     break
             else:
-                parameters.append({'params': v, 'lr': 0.0})
+                parameters.append({'params': v, 'lr': 0.0}) # 如果不是'classifier'层,这样添加
         return parameters
 
     else:
