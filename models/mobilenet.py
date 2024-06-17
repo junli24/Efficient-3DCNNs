@@ -53,7 +53,7 @@ class MobileNet(nn.Module):
         for c, n, s in cfg:
             output_channel = int(c * width_mult)
             for i in range(n):
-                stride = s if i == 0 else 1
+                stride = s if i == 0 else 1 # 第1次降采样,其余不改变深度,高度,宽度
                 self.features.append(Block(input_channel, output_channel, stride))
                 input_channel = output_channel
         # make it nn.Sequential
