@@ -20,7 +20,7 @@ class Block(nn.Module):
     '''Depthwise conv + Pointwise conv'''
     def __init__(self, in_planes, out_planes, stride=1):
         super(Block, self).__init__()
-        self.conv1 = nn.Conv3d(in_planes, in_planes, kernel_size=3, stride=stride, padding=1, groups=in_planes, bias=False)
+        self.conv1 = nn.Conv3d(in_planes, in_planes, kernel_size=3, stride=stride, padding=1, groups=in_planes, bias=False) # groups为了实现分组卷积,减少参数量
         self.bn1 = nn.BatchNorm3d(in_planes)
         self.conv2 = nn.Conv3d(in_planes, out_planes, kernel_size=1, stride=1, padding=0, bias=False)
         self.bn2 = nn.BatchNorm3d(out_planes)
