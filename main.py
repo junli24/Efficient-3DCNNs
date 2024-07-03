@@ -71,22 +71,22 @@ if __name__ == '__main__':
         elif opt.train_crop == 'center':
             crop_method = MultiScaleCornerCrop(
                 opt.scales, opt.sample_size, crop_positions=['c'])
-        spatial_transform = Compose([
-            RandomHorizontalFlip(),
-            #RandomRotate(),
-            #RandomResize(),
-            crop_method,
-            #MultiplyValues(),
-            #Dropout(),
-            #SaltImage(),
-            #Gaussian_blur(),
-            #SpatialElasticDisplacement(),
-            ToTensor(opt.norm_value), norm_method
-        ])
-        temporal_transform = TemporalRandomCrop(opt.sample_duration, opt.downsample)
-        target_transform = ClassLabel()
-        training_data = get_training_set(opt, spatial_transform,
-                                         temporal_transform, target_transform)
+        # spatial_transform = Compose([
+        #     RandomHorizontalFlip(),
+        #     #RandomRotate(),
+        #     #RandomResize(),
+        #     crop_method,
+        #     #MultiplyValues(),
+        #     #Dropout(),
+        #     #SaltImage(),
+        #     #Gaussian_blur(),
+        #     #SpatialElasticDisplacement(),
+        #     ToTensor(opt.norm_value), norm_method
+        # ])
+        # temporal_transform = TemporalRandomCrop(opt.sample_duration, opt.downsample)
+        # target_transform = ClassLabel()
+        # training_data = get_training_set(opt, spatial_transform,
+        #                                  temporal_transform, target_transform)
         train_loader = torch.utils.data.DataLoader(
             training_data,
             batch_size=opt.batch_size,
