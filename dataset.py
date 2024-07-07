@@ -1,10 +1,11 @@
 from datasets.kinetics import Kinetics
 from datasets.ucf101 import UCF101
 from datasets.jester import Jester
+from datasets.adni import adni
 
 def get_training_set(opt, spatial_transform, temporal_transform,
                      target_transform):
-    assert opt.dataset in ['kinetics', 'jester', 'ucf101']
+    assert opt.dataset in ['kinetics', 'jester', 'ucf101', 'adni']
 
     if opt.dataset == 'kinetics':
         training_data = Kinetics(
@@ -33,12 +34,14 @@ def get_training_set(opt, spatial_transform, temporal_transform,
             temporal_transform=temporal_transform,
             target_transform=target_transform,
             sample_duration=opt.sample_duration)
+    elif opt.dataset == 'adni':
+        training_data = adni(opt.video_path, opt.annotation_path)
     return training_data
 
 
 def get_validation_set(opt, spatial_transform, temporal_transform,
                        target_transform):
-    assert opt.dataset in ['kinetics', 'jester', 'ucf101']
+    assert opt.dataset in ['kinetics', 'jester', 'ucf101', 'adni']
 
     if opt.dataset == 'kinetics':
         validation_data = Kinetics(
@@ -70,6 +73,8 @@ def get_validation_set(opt, spatial_transform, temporal_transform,
             temporal_transform,
             target_transform,
             sample_duration=opt.sample_duration)
+    elif opt.dataset == 'adni':
+        validation_data = adni(opt.video_path, opt.annotation_path)
     return validation_data
 
 
