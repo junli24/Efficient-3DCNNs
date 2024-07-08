@@ -103,3 +103,7 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+mri/*
+adni/class3_3_11_2024.csv
+results/*

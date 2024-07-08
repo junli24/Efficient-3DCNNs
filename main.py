@@ -26,7 +26,7 @@ if __name__ == '__main__':
     opt = parse_opts()
     if opt.root_path != '':
         opt.video_path = os.path.join(opt.root_path, opt.video_path)
-        opt.annotation_path = os.path.join(opt.root_path, opt.annotation_path)
+        opt.annotation_path = [os.path.join(opt.root_path, opt.annotation_path[0]), os.path.join(opt.root_path, opt.annotation_path[1])]
         opt.result_path = os.path.join(opt.root_path, opt.result_path)
         if not os.path.exists(opt.result_path):
             os.makedirs(opt.result_path)
@@ -114,7 +114,7 @@ if __name__ == '__main__':
             optimizer, 'min', patience=opt.lr_patience)
     if not opt.no_val:
         spatial_transform = Compose([
-            Scale(opt.sample_size),
+        #    Scale(opt.sample_size),
             CenterCrop(opt.sample_size),
             ToTensor(opt.norm_value), norm_method
         ])
