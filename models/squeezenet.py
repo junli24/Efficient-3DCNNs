@@ -57,14 +57,15 @@ class SqueezeNet(nn.Module):
                  sample_size,
                  sample_duration,			
     	         version=1.1,
-    	         num_classes=600):
+    	         num_classes=3):
         super(SqueezeNet, self).__init__()
         if version not in [1.0, 1.1]:
             raise ValueError("Unsupported SqueezeNet version {version}:"
                              "1.0 or 1.1 expected".format(version=version))
         self.num_classes = num_classes
         last_duration = int(math.ceil(sample_duration / 16))
-        last_size = int(math.ceil(sample_size / 32))
+        last_size_height = int(math.ceil(sample_size[0] / 32))       
+        last_size_width = int(math.ceil(sample_size[1] / 32))
         if version == 1.0:
             self.features = nn.Sequential(
                 nn.Conv3d(3, 96, kernel_size=7, stride=(1,2,2), padding=(3,3,3)),
@@ -107,7 +108,7 @@ class SqueezeNet(nn.Module):
             nn.Dropout(p=0.5),
             final_conv,
             nn.ReLU(inplace=True),
-            nn.AvgPool3d((last_duration, last_size, last_size), stride=1) # 在最后深度,高度,宽度上做avgpool
+            nn.AvgPool3d((last_duration, last_size_height, last_size_width), stride=1) # 在最后深度,高度,宽度上做avgpool
         )
 
         for m in self.modules(): # 模型参数初始化
@@ -155,11 +156,11 @@ def get_model(**kwargs):
 
 
 if __name__ == '__main__':
-    model = SqueezeNet(version=1.1, sample_size = 112, sample_duration = 16, num_classes=600)
+    model = SqueezeNet(version=1.1, sample_size = [113, 137], sample_duration = 113, num_classes=3)
     model = model.cuda()
     model = nn.DataParallel(model, device_ids=None)
     print(model)
 
-    input_var = Variable(torch.randn(8, 3, 16, 112, 112))
+    input_var = Variable(torch.randn(8, 3, 113, 113, 137))
     output = model(input_var)
     print(output.shape)
