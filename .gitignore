@@ -1,5 +1,9 @@
 __pycache__/
 adni/class3_3_11_2024.csv
 mri/
+<<<<<<< HEAD
 results/
 .idea/
+=======
+results/
+>>>>>>> 20285e99d2ef21e6c1398fcf5b4da856858af2e3
