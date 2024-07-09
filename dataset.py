@@ -79,7 +79,7 @@ def get_validation_set(opt, spatial_transform, temporal_transform,
 
 
 def get_test_set(opt, spatial_transform, temporal_transform, target_transform):
-    assert opt.dataset in ['kinetics', 'jester', 'ucf101']
+    assert opt.dataset in ['kinetics', 'jester', 'ucf101', 'adni']
     assert opt.test_subset in ['val', 'test']
 
     if opt.test_subset == 'val':
@@ -116,4 +116,6 @@ def get_test_set(opt, spatial_transform, temporal_transform, target_transform):
             temporal_transform,
             target_transform,
             sample_duration=opt.sample_duration)
+    elif opt.dataset == 'adni':
+        test_data = adni(opt.video_path, opt.annotation_path[1])
     return test_data

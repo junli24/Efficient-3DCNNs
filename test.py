@@ -12,7 +12,7 @@ from utils import AverageMeter
 def calculate_video_results(output_buffer, video_id, test_results, class_names):
     video_outputs = torch.stack(output_buffer)
     average_scores = torch.mean(video_outputs, dim=0)
-    sorted_scores, locs = torch.topk(average_scores, k=10)
+    sorted_scores, locs = torch.topk(average_scores, k=3)
 
     video_results = []
     for i in range(sorted_scores.size(0)):
@@ -34,7 +34,7 @@ def test(data_loader, model, opt, class_names):
 
     end_time = time.time()
     output_buffer = []
-    previous_video_id = ''
+    # previous_video_id = ''
     test_results = {'results': {}}
     for i, (inputs, targets) in enumerate(data_loader):
         data_time.update(time.time() - end_time)

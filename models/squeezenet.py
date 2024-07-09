@@ -155,12 +155,12 @@ def get_model(**kwargs):
     return model
 
 
-if __name__ == '__main__':
-    model = SqueezeNet(version=1.1, sample_size = [113, 137], sample_duration = 113, num_classes=3)
-    model = model.cuda()
-    model = nn.DataParallel(model, device_ids=None)
-    print(model)
-
-    input_var = Variable(torch.randn(8, 3, 113, 113, 137))
-    output = model(input_var)
-    print(output.shape)
+#if __name__ == '__main__':
+#    model = SqueezeNet(version=1.1, sample_size = [113, 137], sample_duration = 113, num_classes=3)
+#    model = model.cuda()
+#    model = nn.DataParallel(model, device_ids=None)
+#    print(model)
+#
+#    input_var = Variable(torch.randn(8, 3, 113, 113, 137))
+#    output = model(input_var)
+#    print(output.shape)

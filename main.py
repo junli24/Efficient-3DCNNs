@@ -125,7 +125,7 @@ if __name__ == '__main__':
             opt, None, None, None)
         val_loader = torch.utils.data.DataLoader(
             validation_data,
-            batch_size=16,
+            batch_size=8,
             shuffle=False,
             num_workers=opt.n_threads,
             pin_memory=True)
@@ -175,7 +175,7 @@ if __name__ == '__main__':
 
     if opt.test:
         spatial_transform = Compose([
-            Scale(int(opt.sample_size / opt.scale_in_test)),
+            # Scale(int(opt.sample_size / opt.scale_in_test)),
             CornerCrop(opt.sample_size, opt.crop_position_in_test),
             ToTensor(opt.norm_value), norm_method
         ])
@@ -183,15 +183,14 @@ if __name__ == '__main__':
         temporal_transform = TemporalRandomCrop(opt.sample_duration, opt.downsample)
         target_transform = VideoID()
 
-        test_data = get_test_set(opt, spatial_transform, temporal_transform,
-                                 target_transform)
+        test_data = get_test_set(opt, None, None, None)
         test_loader = torch.utils.data.DataLoader(
             test_data,
-            batch_size=16,
+            batch_size=8,
             shuffle=False,
             num_workers=opt.n_threads,
             pin_memory=True)
-        test.test(test_loader, model, opt, test_data.class_names)
+        test.test(test_loader, model, opt, {0: 'CN', 1: 'MCI', 2: 'AD'})
 
 
 
