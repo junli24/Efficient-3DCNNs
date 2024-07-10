@@ -157,7 +157,7 @@ if __name__ == '__main__':
                 'best_prec1': best_prec1
                 }
             save_checkpoint(state, False, opt)
-            
+
         if not opt.no_val:
             validation_loss, prec1 = val_epoch(i, val_loader, model, criterion, opt,
                                         val_logger)
@@ -191,7 +191,4 @@ if __name__ == '__main__':
             num_workers=opt.n_threads,
             pin_memory=True)
         test.test(test_loader, model, opt, {0: 'CN', 1: 'MCI', 2: 'AD'})
-
-
-
 

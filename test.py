@@ -34,7 +34,7 @@ def test(data_loader, model, opt, class_names):
 
     end_time = time.time()
     output_buffer = []
-    # previous_video_id = ''
+    previous_video_id = ''
     test_results = {'results': {}}
     for i, (inputs, targets) in enumerate(data_loader):
         data_time.update(time.time() - end_time)

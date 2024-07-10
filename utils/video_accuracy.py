@@ -1,5 +1,6 @@
 from eval_ucf101 import UCFclassification
 from eval_kinetics import KINETICSclassification
+from eval_adni import ADNIclassification
 
 
 
@@ -10,10 +11,10 @@ from eval_kinetics import KINETICSclassification
 # print(ucf_classification.hit_at_k)
 
 
-kinetics_classification = KINETICSclassification('../annotation_Kinetics/kinetics.json',
+adni_classification = ADNIclassification('../adni/test.csv',
                                        '../results/val.json',
                                        subset='validation',
                                        top_k=1,
                                        check_status=False)
-kinetics_classification.evaluate()
-print(kinetics_classification.hit_at_k)
+adni_classification.evaluate()
+print(adni_classification.hit_at_k)

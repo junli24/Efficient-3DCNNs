@@ -2,6 +2,7 @@ from datasets.kinetics import Kinetics
 from datasets.ucf101 import UCF101
 from datasets.jester import Jester
 from datasets.adni import adni
+from datasets.adni import adni_test
 
 def get_training_set(opt, spatial_transform, temporal_transform,
                      target_transform):
@@ -117,5 +118,5 @@ def get_test_set(opt, spatial_transform, temporal_transform, target_transform):
             target_transform,
             sample_duration=opt.sample_duration)
     elif opt.dataset == 'adni':
-        test_data = adni(opt.video_path, opt.annotation_path[1])
+        test_data = adni_test(opt.video_path, opt.annotation_path[1])
     return test_data
