@@ -32,7 +32,7 @@ class Block(nn.Module):
 
 
 class MobileNet(nn.Module):
-    def __init__(self, num_classes=3, sample_size=224, width_mult=1.):
+    def __init__(self, num_classes=3, sample_size=[113, 137], width_mult=1.):
         super(MobileNet, self).__init__()
 
         input_channel = 32
