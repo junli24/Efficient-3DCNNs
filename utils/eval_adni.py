@@ -1,7 +1,11 @@
 import json
+import sys
 
 import numpy as np
 import pandas as pd
+from sklearn.metrics import ConfusionMatrixDisplay, confusion_matrix
+from matplotlib import pyplot as plt
+
 
 class ADNIclassification(object):
     GROUND_TRUTH_FIELDS = ['database', 'labels']
@@ -156,6 +160,8 @@ def compute_video_hit_at_k(ground_truth, prediction, top_k=3, avg=False):
     """
     video_ids = np.unique(ground_truth['video-id'].values)
     avg_hits_per_vid = np.zeros(video_ids.size)
+    gt_labels = []
+    pred_labels = []
     for i, vid in enumerate(video_ids):
         pred_idx = prediction['video-id'] == vid
         if not pred_idx.any():
@@ -172,4 +178,13 @@ def compute_video_hit_at_k(ground_truth, prediction, top_k=3, avg=False):
                                        for this_label in gt_label])
         if not avg:
             avg_hits_per_vid[i] = np.ceil(avg_hits_per_vid[i])
+
+        gt_labels.append(gt_label)
+        pred_labels.append(pred_label)
+
+    confusion_mat = confusion_matrix(gt_labels, pred_labels, labels=['CN', 'MCI', 'AD'])
+    disp = ConfusionMatrixDisplay(confusion_matrix=confusion_mat, display_labels=['CN', 'MCI', 'AD'])
+    disp.plot()
+    plt.show()
+
     return float(avg_hits_per_vid.mean())
