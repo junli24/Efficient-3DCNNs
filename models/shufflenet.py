@@ -7,6 +7,8 @@ import torch.nn as nn
 import torch.nn.functional as F
 from torch.autograd import Variable
 
+import sys
+
 
 def conv_bn(inp, oup, stride):
     return nn.Sequential(
@@ -49,7 +51,7 @@ class Bottleneck(nn.Module):
         self.relu     = nn.ReLU(inplace=True)
 
         if stride == 2:
-            self.shortcut = nn.AvgPool3d(kernel_size=(2,3,3), stride=2, padding=(0,1,1))
+            self.shortcut = nn.AvgPool3d(kernel_size=(2,3,3), stride=2, padding=(1,1,1))
 
 
     def forward(self, x):
@@ -155,14 +157,14 @@ def get_model(**kwargs):
     return model
 
 
-if __name__ == "__main__":
-    model = get_model(groups=3, num_classes=600, width_mult=1)
-    model = model.cuda()
-    model = nn.DataParallel(model, device_ids=None)
-    print(model)
-
-    input_var = Variable(torch.randn(8, 3, 16, 112, 112))
-    output = model(input_var)
-    print(output.shape)
+# if __name__ == "__main__":
+#     model = get_model(groups=3, num_classes=600, width_mult=1)
+#     model = model.cuda()
+#     model = nn.DataParallel(model, device_ids=None)
+#     print(model)
+#
+#     input_var = Variable(torch.randn(8, 3, 16, 112, 112))
+#     output = model(input_var)
+#     print(output.shape)
 
 
