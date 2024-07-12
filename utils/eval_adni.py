@@ -185,6 +185,6 @@ def compute_video_hit_at_k(ground_truth, prediction, top_k=3, avg=False):
     confusion_mat = confusion_matrix(gt_labels, pred_labels, labels=['CN', 'MCI', 'AD'])
     disp = ConfusionMatrixDisplay(confusion_matrix=confusion_mat, display_labels=['CN', 'MCI', 'AD'])
     disp.plot()
-    plt.show()
+    plt.savefig('../results/confusion_matrix.pdf', format='pdf')
 
     return float(avg_hits_per_vid.mean())
