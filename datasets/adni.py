@@ -24,7 +24,7 @@ class adni(Dataset):
         return len(self.filenames)
 
     def __getitem__(self, idx):
-        image_path = os.path.join(self.folder, 'wm' + self.filenames[idx] + '.nii')
+        image_path = os.path.join(self.folder, 'mwp1' + self.filenames[idx] + '.nii')
         image_nifti = nib.load(image_path)
         image_data = image_nifti.get_fdata()
         image_tensor = torch.tensor(image_data, dtype=torch.float32)
@@ -46,7 +46,7 @@ class adni_test(Dataset):
         return len(self.filenames)
 
     def __getitem__(self, idx):
-        image_path = os.path.join(self.folder, 'wm' + self.filenames[idx] + '.nii')
+        image_path = os.path.join(self.folder, 'mwp1' + self.filenames[idx] + '.nii')
         image_nifti = nib.load(image_path)
         image_data = image_nifti.get_fdata()
         image_tensor = torch.tensor(image_data, dtype=torch.float32)
