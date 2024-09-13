@@ -4,6 +4,7 @@ import sys
 import numpy as np
 import pandas as pd
 from sklearn.metrics import ConfusionMatrixDisplay, confusion_matrix
+from sklearn.metrics import accuracy_score, precision_score, f1_score, recall_score, classification_report
 from matplotlib import pyplot as plt
 
 
@@ -186,5 +187,13 @@ def compute_video_hit_at_k(ground_truth, prediction, top_k=3, avg=False):
     disp = ConfusionMatrixDisplay(confusion_matrix=confusion_mat, display_labels=['CN', 'MCI', 'AD'])
     disp.plot()
     plt.savefig('../results/confusion_matrix.pdf', format='pdf')
+
+    print('accuracy_score', accuracy_score(gt_labels, pred_labels, labels=['CN', 'MCI', 'AD']))
+
+    print('Micro precision', precision_score(gt_labels, pred_labels, labels=['CN', 'MCI', 'AD'], average='micro'))
+    print('Micro recall', recall_score(gt_labels, pred_labels, labels=['CN', 'MCI', 'AD'], average='micro'))
+    print('Micro f1-score', f1_score(gt_labels, pred_labels, labels=['CN', 'MCI', 'AD'], average='micro'))
+
+    print('classification_report\n', classification_report(gt_labels, pred_labels, labels=['CN', 'MCI', 'AD']))
 
     return float(avg_hits_per_vid.mean())
