@@ -17,4 +17,3 @@ adni_classification = ADNIclassification('../adni/test.csv',
                                        top_k=1,
                                        check_status=False)
 adni_classification.evaluate()
-print(adni_classification.hit_at_k)
