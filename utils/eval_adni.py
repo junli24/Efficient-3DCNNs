@@ -190,6 +190,10 @@ def compute_video_hit_at_k(ground_truth, prediction, top_k=3, avg=False):
 
     print('accuracy_score', accuracy_score(gt_labels, pred_labels))
 
-    print('classification_report\n', classification_report(gt_labels, pred_labels, labels=['CN', 'MCI', 'AD']))
+    print('Micro precision', precision_score(gt_labels, pred_labels, labels=['CN', 'MCI', 'AD'], average='micro'))
+    print('Micro recall', recall_score(gt_labels, pred_labels, labels=['CN', 'MCI', 'AD'], average='micro'))
+    print('Micro f1-score', f1_score(gt_labels, pred_labels, labels=['CN', 'MCI', 'AD'], average='micro'))
+
+    print('classification_report\n', classification_report(gt_labels, pred_labels, labels=['CN', 'MCI', 'AD'], digits=8))
 
     return float(avg_hits_per_vid.mean())
