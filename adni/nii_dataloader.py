@@ -33,7 +33,7 @@ class ADNIDataset(Dataset):
         image_tensor = image_tensor.permute(0, 3, 1, 2)
         return image_tensor, self.labels[idx]
 
-dataset = ADNIDataset(r'D:\processed_data\mri', r'../adni/train.csv')
+dataset = ADNIDataset(r'D:\processed_data\mri', r'./train.csv')
 dataloader = DataLoader(dataset, batch_size=20, shuffle=False)
 
 for images, label in dataloader:
