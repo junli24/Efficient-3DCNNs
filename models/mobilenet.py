@@ -20,7 +20,7 @@ class Block(nn.Module):
     '''Depthwise conv + Pointwise conv'''
     def __init__(self, in_planes, out_planes, stride=1):
         super(Block, self).__init__()
-        self.conv1 = nn.Conv3d(in_planes, in_planes, kernel_size=3, stride=stride, padding=1, groups=in_planes, bias=False) # groups为了实现分组卷积,减少参数量
+        self.conv1 = nn.Conv3d(in_planes, in_planes, kernel_size=3, stride=stride, padding=1, groups=in_planes, bias=False) # Groups is used to achieve group convolution and reduce the number of parameters.
         self.bn1 = nn.BatchNorm3d(in_planes)
         self.conv2 = nn.Conv3d(in_planes, out_planes, kernel_size=1, stride=1, padding=0, bias=False)
         self.bn2 = nn.BatchNorm3d(out_planes)
@@ -53,7 +53,7 @@ class MobileNet(nn.Module):
         for c, n, s in cfg:
             output_channel = int(c * width_mult)
             for i in range(n):
-                stride = s if i == 0 else 1 # 第1次降采样,其余不改变深度,高度,宽度
+                stride = s if i == 0 else 1 # The first downsampling, the rest does not change the depth, height, width
                 self.features.append(Block(input_channel, output_channel, stride))
                 input_channel = output_channel
         # make it nn.Sequential
