@@ -11,8 +11,6 @@ from torchvision import transforms
 
 import pandas as pd
 
-# os.chdir(r'C:\Users\Administrator\Nutstore\1\我的坚果云\PythonScripts\mri')
-# os.chdir(r'C:\Users\96275\Nutstore\1\我的坚果云\PythonScripts\mri')
 
 class ADNIDataset(Dataset):
     def __init__(self, folder, csv_file):
@@ -35,7 +33,7 @@ class ADNIDataset(Dataset):
         image_tensor = image_tensor.permute(0, 3, 1, 2)
         return image_tensor, self.labels[idx]
 
-dataset = ADNIDataset(r'D:\processed_data\mri', r'C:\Users\96275\Nutstore\1\我的坚果云\Alzheimer\code\Efficient-3DCNNs\adni\train.csv')
+dataset = ADNIDataset(r'D:\processed_data\mri', r'../adni/train.csv')
 dataloader = DataLoader(dataset, batch_size=20, shuffle=False)
 
 for images, label in dataloader:
