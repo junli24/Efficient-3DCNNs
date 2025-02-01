@@ -18,7 +18,7 @@ def pil_loader(path):
     # open path as file to avoid ResourceWarning (https://github.com/python-pillow/Pillow/issues/835)
     with open(path, 'rb') as f:
         with Image.open(f) as img:
-            return img.convert('RGB') # 转换成RGB格式
+            return img.convert('RGB') # Convert to RGB format
 
 
 def accimage_loader(path):
@@ -38,16 +38,16 @@ def get_default_image_loader():
         return pil_loader
 
 
-def video_loader(video_dir_path, frame_indices, sample_duration, image_loader): # frame_indices:帧的索引/下标,sample_duration:每一次采样的帧数
+def video_loader(video_dir_path, frame_indices, sample_duration, image_loader): # frame_indices:Frame index/subscript,sample_duration:The number of frames per sampling
     # print(frame_indices)
     cap = cv2.VideoCapture(video_dir_path)
     video = []
-    cap.set(1, frame_indices[0]) # 设置读取帧的索引
+    cap.set(1, frame_indices[0]) # Set the index of the frame to read
     for _ in frame_indices:
         ret, frame = cap.read()
         if ret:
-            pil_frame = Image.fromarray(frame) # 读取一帧
-            video.append(pil_frame) # 形成帧的列表
+            pil_frame = Image.fromarray(frame) # Read a frame
+            video.append(pil_frame) # Form a list of frames
         else:
             break
 
@@ -55,7 +55,7 @@ def video_loader(video_dir_path, frame_indices, sample_duration, image_loader): 
     
 
     # Loop as many times for short videos
-    # 对于短视频,把帧数补齐到sample_duration
+    # For short videos, fill the number of frames to sample_duration
     for frame in video:
         if len(video) >= sample_duration:
             break
@@ -103,7 +103,7 @@ def get_video_names_annotations_framenum(data, subset):
                 video_names.append('{}/{}'.format(label, key))
                 annotations.append(value['annotations'])
 
-    return video_names, annotations, framenum # 返回视频的名字,标注,帧数
+    return video_names, annotations, framenum # Returns the name, label, and frame number of the video
 
 
 def make_dataset(root_path, annotation_path, subset, n_samples_for_each_video,
@@ -138,7 +138,7 @@ def make_dataset(root_path, annotation_path, subset, n_samples_for_each_video,
             'video_id': video_names[i][:-14].split('/')[1]
         }
         if len(annotations) != 0:
-            sample['label'] = class_to_idx[annotations[i]['label']] # 类别整数
+            sample['label'] = class_to_idx[annotations[i]['label']] # Category Integer
         else:
             sample['label'] = -1
 
