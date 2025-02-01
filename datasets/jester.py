@@ -22,7 +22,7 @@ def pil_loader(path):
 
 def accimage_loader(path):
     try:
-        import accimage # Pytorch中的PIL,加快处理速度
+        import accimage # PIL in Pytorch, speed up processing
         return accimage.Image(path)
     except IOError:
         # Potentially a decoding problem, fall back to PIL.Image
@@ -59,7 +59,7 @@ def load_annotation_data(data_file_path):
         return json.load(data_file)
 
 
-# 将类别转换成整数
+# Convert categories to integers
 def get_class_labels(data):
     class_labels_map = {}
     index = 0
@@ -74,12 +74,12 @@ def get_video_names_and_annotations(data, subset):
     annotations = []
 
     for key, value in data['database'].items():
-        this_subset = value['subset'] # 是训练集还是验证集
+        this_subset = value['subset'] # Is it a training set or a validation set?
         if this_subset == subset:
-            label = value['annotations']['label'] # 获取类别
+            label = value['annotations']['label'] # Get Category
             #video_names.append('{}/{}'.format(label, key))
-            video_names.append(key) # 视频编号
-            annotations.append(value['annotations']) # 视频的标注,包含视频的类别
+            video_names.append(key) # Video ID
+            annotations.append(value['annotations']) # Video annotation, including video category
 
     return video_names, annotations
 
@@ -91,20 +91,20 @@ def make_dataset(root_path, annotation_path, subset, n_samples_for_each_video,
     class_to_idx = get_class_labels(data)
     idx_to_class = {}
     for name, label in class_to_idx.items():
-        idx_to_class[label] = name # 整数->类别
+        idx_to_class[label] = name # Integer -> Category
 
     dataset = []
     for i in range(len(video_names)):
         if i % 1000 == 0:
             print('dataset loading [{}/{}]'.format(i, len(video_names)))
 
-        video_path = os.path.join(root_path, video_names[i]) # 视频路径
+        video_path = os.path.join(root_path, video_names[i]) # Video Path
         if not os.path.exists(video_path):
             print(video_path)
             continue
 
-        n_frames_file_path = os.path.join(video_path, 'n_frames') # 帧文件路径
-        n_frames = int(load_value_file(n_frames_file_path)) # 读取文件内容并转换成整数
+        n_frames_file_path = os.path.join(video_path, 'n_frames') # Frame file path
+        n_frames = int(load_value_file(n_frames_file_path)) # Read the file contents and convert them into integers
         if n_frames <= 0:
             continue
 
@@ -118,17 +118,17 @@ def make_dataset(root_path, annotation_path, subset, n_samples_for_each_video,
             'video_id': video_names[i]
         }
         if len(annotations) != 0:
-            sample['label'] = class_to_idx[annotations[i]['label']] # 视频的类别(整数)
+            sample['label'] = class_to_idx[annotations[i]['label']] # Category of the video (integer)
         else:
             sample['label'] = -1
 
-        if n_samples_for_each_video == 1: # 视频的采样次数
+        if n_samples_for_each_video == 1: # Video sampling times
             sample['frame_indices'] = list(range(1, n_frames + 1))
             dataset.append(sample)
         else:
             if n_samples_for_each_video > 1:
                 step = max(1,
-                           math.ceil((n_frames - 1 - sample_duration) / # sample_duration每次采样的帧数
+                           math.ceil((n_frames - 1 - sample_duration) / # sample_duration The number of frames per sample
                                      (n_samples_for_each_video - 1)))
             else:
                 step = sample_duration
@@ -189,12 +189,12 @@ class Jester(data.Dataset):
         frame_indices = self.data[index]['frame_indices']
         if self.temporal_transform is not None:
            frame_indices = self.temporal_transform(frame_indices)
-        clip = self.loader(path, frame_indices, self.sample_duration) # 读取视频的帧,形成一个列表
+        clip = self.loader(path, frame_indices, self.sample_duration) # Read the video frames and form a list
         if self.spatial_transform is not None:
             self.spatial_transform.randomize_parameters()
             clip = [self.spatial_transform(img) for img in clip]
-        im_dim = clip[0].size()[-2:] # 返回帧的高度,宽度
-        clip = torch.stack(clip, 0).permute(1, 0, 2, 3) # 将帧拼接在一起,第一维为深度.将深度和通道数进行交换.通道,深度,高度,宽度
+        im_dim = clip[0].size()[-2:] # Returns the height and width of the frame
+        clip = torch.stack(clip, 0).permute(1, 0, 2, 3) # Concatenate frames together, with the first dimension being depth. Swap depth and number of channels. Channels, depth, height, width
 
         target = self.data[index]
         if self.target_transform is not None:
