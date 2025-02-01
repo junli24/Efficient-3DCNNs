@@ -22,7 +22,7 @@ class Fire(nn.Module):
         super(Fire, self).__init__()
         self.use_bypass = use_bypass
         self.inplanes = inplanes
-        self.relu = nn.ReLU(inplace=True) # 改变对象值
+        self.relu = nn.ReLU(inplace=True) # Changing object values
         self.squeeze = nn.Conv3d(inplanes, squeeze_planes, kernel_size=1)
         self.squeeze_bn = nn.BatchNorm3d(squeeze_planes)
         self.expand1x1 = nn.Conv3d(squeeze_planes, expand1x1_planes,
@@ -43,7 +43,7 @@ class Fire(nn.Module):
         out2 = self.expand3x3(out)
         out2 = self.expand3x3_bn(out2)
 
-        out = torch.cat([out1, out2], 1) # 按channel拼接
+        out = torch.cat([out1, out2], 1) # Splicing by channel
         if self.use_bypass:
         	out += x
         out = self.relu(out)
@@ -108,10 +108,10 @@ class SqueezeNet(nn.Module):
             nn.Dropout(p=0.5),
             final_conv,
             nn.ReLU(inplace=True),
-            nn.AvgPool3d((last_duration, last_size_height, last_size_width), stride=1) # 在最后深度,高度,宽度上做avgpool
+            nn.AvgPool3d((last_duration, last_size_height, last_size_width), stride=1) # Do avgpool on the final depth, height, width
         )
 
-        for m in self.modules(): # 模型参数初始化
+        for m in self.modules(): # Model parameter initialization
             if isinstance(m, nn.Conv3d):
                 m.weight = nn.init.kaiming_normal_(m.weight, mode='fan_out')
             elif isinstance(m, nn.BatchNorm3d):
@@ -134,13 +134,13 @@ def get_fine_tuning_parameters(model, ft_portion):
         ft_module_names.append('classifier')
 
         parameters = []
-        for k, v in model.named_parameters(): # 迭代每一层参数
-            for ft_module in ft_module_names: # 迭代'classifier'
-                if ft_module in k: # 如果是'classifier'
-                    parameters.append({'params': v}) # 添加参数'classifier'层参数
+        for k, v in model.named_parameters(): # Iterate each layer parameter
+            for ft_module in ft_module_names: # Iterate over 'classifier'
+                if ft_module in k: # If 'classifier'
+                    parameters.append({'params': v}) # Add parameter 'classifier' layer parameters
                     break
             else:
-                parameters.append({'params': v, 'lr': 0.0}) # 如果不是'classifier'层,这样添加
+                parameters.append({'params': v, 'lr': 0.0}) # If it is not a 'classifier' layer, add it like this
         return parameters
 
     else:
