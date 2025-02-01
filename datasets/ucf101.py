@@ -113,7 +113,7 @@ def make_dataset(root_path, annotation_path, subset, n_samples_for_each_video,
             'video_id': video_names[i].split('/')[1]
         }
         if len(annotations) != 0:
-            sample['label'] = class_to_idx[annotations[i]['label']] # 类别整数
+            sample['label'] = class_to_idx[annotations[i]['label']] # Category Integer
         else:
             sample['label'] = -1
 
